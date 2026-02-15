@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Передаем твой акцентный цвет в CSS-переменную */
+  --accent: #FFCBCB;
+  --foreground: #2D2D2D;
+  --background: #FFFFFF;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "kern" 1;
+}
+
+/* Настройки для элементов сайта студии */
+
+/* Цвет выделения текста */
+::selection {
+  background-color: var(--accent);
+  color: #000;
+}
+
+/* Красивый мягкий фокус для кнопок и инпутов */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Настройка скроллбара (полосы прокрутки) под стиль студии */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f8f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 5px;
+  border: 2px solid #f8f8f8;
+}

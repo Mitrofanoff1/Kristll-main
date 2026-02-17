@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, MessageCircle } from 'lucide-react';
+import { ModalType } from '@/app/page';
 
-const FAQ = () => {
+export default function FAQ({ onOpenModal }: { onOpenModal: (type: ModalType) => void }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqData = [
@@ -25,35 +26,35 @@ const FAQ = () => {
     },
     {
       q: "Влияет ли лазерная эпиляция на здоровье организма?",
-      a: "Нет, вреда нет. Лазер воздействует только на волосяной фолликул (глубина 0.5–0.6 мм). Внутренние органы, кровеносная и лимфатическая системы не затрагиваются. Это один из самых безопасных и щадящих методов удаления волос."
+      a: "Нет, вреда нет. Лазер работает только с верхним слоем кожи (0,5–0,6 мм). Внутренние органы, кровеносная и лимфатическая системы не подвергаются воздействию. Это один из самых безопасных методов удаления волос."
     },
     {
       q: "Лазерная эпиляция – это больно?",
-      a: "Обычно клиентки описывают ощущения как лёгкое покалывание или тепло. Аппарат настраивается индивидуально. Если вам станет неприятно — мастер сразу отрегулирует параметры, чтобы процесс проходил максимально комфортно."
+      a: "Нет, сильной боли нет. Ощущения описывают как лёгкое покалывание или тепло. Аппарат настраивается под каждого клиента. Если во время процедуры вам станет неприятно — обязательно скажите мастеру, мы отрегулируем параметры для вашего комфорта."
     },
     {
       q: "Лазерная эпиляция вызывает рак?",
-      a: "Это миф. Лазерная эпиляция не имеет ничего общего с облучением. Луч нагревает только пигмент волоса и разрушает фолликул, не затрагивая ткани и органы. Безопасность метода подтверждена многочисленными клиническими исследованиями."
+      a: "Это миф. Лазерная эпиляция не имеет ничего общего с облучением. Действие лазера направлено исключительно на пигмент в волоске. Это признанная безопасная процедура, что подтверждено многочисленными клиническими исследованиями."
     },
     {
       q: "Можно ли получить ожог на процедуре?",
-      a: "В нашей студии мы работаем на сертифицированном оборудовании и всегда подбираем настройки индивидуально. Мы регулярно проходим обучение, поэтому риск ожога исключён."
+      a: "Ожог возможен только при нарушении техники работы. В нашей студии мы работаем на сертифицированном оборудовании Pioneer Ozero Khanka и регулярно проходим обучение, поэтому риск ожогов исключен."
     },
     {
       q: "Сколько держится эффект после эпиляции?",
-      a: "После полного курса результат сохраняется в среднем от 3 до 5 лет. Для поддержания идеальной гладкости рекомендуются редкие профилактические сеансы."
+      a: "После полного курса результат сохраняется в среднем от 3 до 5 лет. Для поддержания гладкости рекомендуются редкие профилактические сеансы (раз в полгода/год)."
     },
     {
       q: "Можно ли посещать бассейн, баню или сауну?",
-      a: "Мы рекомендуем отложить бассейн, баню и сауну на 2–3 дня. Хлор в воде и высокая температура могут раздражать чувствительную после процедуры кожу."
+      a: "Рекомендуем отложить бассейн, баню и сауну на 2–3 дня. Хлор в воде и высокая температура могут вызвать раздражение чувствительной после процедуры кожи."
     },
     {
       q: "Можно ли после лазерной эпиляции заниматься спортом?",
-      a: "В течение первых суток лучше воздержаться от активных тренировок. Пот может создать благоприятную среду для бактерий на уязвимой после лазера коже."
+      a: "В течение первых суток лучше воздержаться от тренировок. Пот может создать благоприятную среду для бактерий на уязвимой после лазера коже."
     },
     {
       q: "Можно ли проводить эпиляцию при ОРВИ или приёме антибиотиков?",
-      a: "При симптомах ОРВИ или герпеса процедуру лучше отложить. При приёме антибиотиков важно проверить, не вызывают ли они фотосенсибилизацию (повышенную чувствительность к свету). В таком случае сеанс переносится на 3-5 дней после окончания курса лечения."
+      a: "При симптомах ОРВИ или герпеса процедуру лучше отложить. При приёме антибиотиков важно убедиться, что они не вызывают фотосенсибилизацию. В среднем процедуру можно проводить через 3–5 дней после окончания курса лечения."
     }
   ];
 
@@ -62,7 +63,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-white overflow-hidden">
+    <section id="faq" className="py-16 md:py-24 bg-white overflow-hidden text-black">
       <div className="container mx-auto px-4 max-w-4xl">
         
         {/* ЗАГОЛОВОК */}
@@ -70,6 +71,7 @@ const FAQ = () => {
           <h2 className="text-2xl md:text-5xl font-black uppercase tracking-tighter leading-tight text-[#1a1a1a]">
             Ответы на часто <br className="md:hidden" /> задаваемые вопросы
           </h2>
+          <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
         </div>
 
         {/* СПИСОК ВОПРОСОВ */}
@@ -83,7 +85,7 @@ const FAQ = () => {
                 onClick={() => toggleFAQ(index)}
                 className="w-full py-6 md:py-8 flex items-center justify-between gap-4 text-left group"
               >
-                <span className={`text-base md:text-xl font-extrabold uppercase tracking-tight transition-colors ${openIndex === index ? 'text-accent' : 'text-gray-900 group-hover:text-accent'}`}>
+                <span className={`text-[15px] md:text-xl font-black uppercase tracking-tight transition-colors ${openIndex === index ? 'text-accent' : 'text-gray-900 group-hover:text-accent'}`}>
                   {item.q}
                 </span>
                 <div className="flex-shrink-0">
@@ -95,10 +97,10 @@ const FAQ = () => {
                 </div>
               </button>
 
-              {/* ОБЛАСТЬ ОТВЕТА (Раскрывающаяся) */}
+              {/* ОБЛАСТЬ ОТВЕТА */}
               <div 
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  openIndex === index ? 'max-h-[500px] pb-8' : 'max-h-0'
+                  openIndex === index ? 'max-h-[800px] pb-8' : 'max-h-0'
                 }`}
               >
                 <div className="text-gray-600 text-[15px] md:text-lg leading-relaxed whitespace-pre-line font-medium pr-10">
@@ -109,10 +111,14 @@ const FAQ = () => {
           ))}
         </div>
 
-        {/* НИЖНЯЯ ПЛАШКА (Дополнительно) */}
+        {/* КНОПКА КОНСУЛЬТАЦИИ СНИЗУ */}
         <div className="mt-16 text-center">
-            <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] md:text-xs mb-4">Остались вопросы?</p>
-            <button className="bg-accent hover:bg-[#ffbaba] text-black text-sm md:text-base font-black py-4 px-10 rounded-full transition-all active:scale-95 uppercase tracking-widest">
+            <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] md:text-xs mb-6">Остались вопросы?</p>
+            <button 
+              onClick={() => onOpenModal('consult')} 
+              className="bg-accent hover:bg-[#ffbaba] text-black text-sm md:text-base font-black py-4 md:py-5 px-10 md:px-16 rounded-full transition-all shadow-xl shadow-accent/20 active:scale-95 uppercase tracking-widest flex items-center justify-center gap-3 mx-auto"
+            >
+                <MessageCircle className="w-5 h-5" />
                 Задать свой вопрос
             </button>
         </div>
@@ -120,6 +126,4 @@ const FAQ = () => {
       </div>
     </section>
   );
-};
-
-export default FAQ;
+}

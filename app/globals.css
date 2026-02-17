@@ -43,3 +43,18 @@ body {
   border-radius: 5px;
   border: 2px solid #f8f8f8;
 }
+/* Скрываем стандартную кнопку YClients */
+#yclients_button, 
+.yclients-button, 
+iframe[name="yclients-widget"] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth !important;
+}
+
+/* Это чтобы при прокрутке заголовок блока не прятался под шапку */
+section {
+  scroll-margin-top: 100px;
+}

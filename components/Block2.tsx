@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const Block2 = () => {
   const points = [
@@ -24,16 +25,23 @@ const Block2 = () => {
     }
   ];
 
+  // Массив для наших 4-х картинок
+  const gallery = [
+    { src: "/why-1.webp", alt: "Процесс лазерной эпиляции" },
+    { src: "/why-2.webp", alt: "Аппарат Pioneer" },
+    { src: "/why-3.webp", alt: "Результат гладкая кожа" },
+    { src: "/why-4.webp", alt: "Кабинет студии Kristll" },
+  ];
+
   return (
     <section className="py-12 md:py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4">
         
-        {/* ЗАГОЛОВОК С ЛИНИЕЙ-АКЦЕНТОМ */}
+        {/* ЗАГОЛОВОК */}
         <div className="text-center mb-12 md:mb-20">
           <h2 className="text-[1.4rem] md:text-[2.6rem] font-black uppercase tracking-tighter leading-[1.1] inline-block">
             ПОЧЕМУ ЛАЗЕРНАЯ ЭПИЛЯЦИЯ — <br className="md:hidden" />
             <span className="text-accent">ЭТО ЛУЧШИЙ ВЫБОР?</span>
-            {/* Розовая полоска под заголовком */}
             <div className="w-16 h-1.5 bg-accent mx-auto mt-4 rounded-full"></div>
           </h2>
         </div>
@@ -45,10 +53,7 @@ const Block2 = () => {
             <div className="space-y-6 md:space-y-8">
               {points.map((point, index) => (
                 <div key={index} className="flex gap-4 items-start">
-                  {/* Маркер-точка */}
                   <div className="w-2 h-2 rounded-full bg-black mt-2.5 flex-shrink-0"></div>
-                  
-                  {/* Контент: Жирный заголовок + Описание */}
                   <p className="text-[15px] md:text-lg text-gray-700 leading-relaxed">
                     <span className="font-extrabold text-black">{point.bold}</span> {point.text}
                   </p>
@@ -57,25 +62,29 @@ const Block2 = () => {
             </div>
           </div>
 
-          {/* ПРАВАЯ ЧАСТЬ: ФОТО И ИТОГОВАЯ ПЛАШКА */}
+          {/* ПРАВАЯ ЧАСТЬ: СЕТКА ФОТО И ИТОГ */}
           <div className="w-full lg:w-2/5 order-2 flex flex-col gap-10">
             
-            {/* ФОТО (Заглушка) */}
-            <div className="px-4 md:px-0">
-                <div className="relative aspect-[4/3] md:aspect-[4/5] bg-gray-50 border-2 border-dashed border-gray-200 rounded-[30px] md:rounded-[40px] flex items-center justify-center overflow-hidden shadow-sm">
-                    <p className="text-gray-400 font-medium italic text-xs text-center px-4">
-                        Место для фото процесса <br/> или аппарата
-                    </p>
-                </div>
+            {/* ГАЛЕРЕЯ 2х2 */}
+            <div className="grid grid-cols-2 gap-3 md:gap-4 px-2 md:px-0">
+                {gallery.map((img, idx) => (
+                    <div key={idx} className="relative aspect-square overflow-hidden rounded-2xl md:rounded-[30px] shadow-sm border border-gray-100 bg-gray-50">
+                        <Image 
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          className="object-cover hover:scale-105 transition-transform duration-500"
+                        />
+                    </div>
+                ))}
             </div>
 
-            {/* ИТОГОВАЯ ПЛАШКА С НОВЫМ ТЕКСТОМ И АКЦЕНТАМИ */}
+            {/* ИТОГОВАЯ ПЛАШКА */}
             <div className="text-center lg:text-left space-y-8">
                 <p className="text-[15px] md:text-lg text-gray-800 font-bold leading-snug max-w-sm mx-auto lg:mx-0 uppercase tracking-tight">
                     Лазерная эпиляция в <span className="text-accent">Kristll Studio</span> позволит Вам наслаждаться <span className="text-accent">идеальной гладкостью кожи!</span>
                 </p>
 
-                {/* Кнопка записи */}
                 <button className="w-full md:w-auto bg-black hover:bg-zinc-800 text-white text-base md:text-lg font-black py-5 px-14 rounded-full transition-all shadow-lg active:scale-95 uppercase tracking-widest">
                     Записаться
                 </button>

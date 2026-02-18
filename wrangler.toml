@@ -1,0 +1,9 @@
+name = "kristl1"                     # имя твоего проекта в Cloudflare Pages (kristl1)
+compatibility_date = "2026-02-18"
+compatibility_flags = ["nodejs_compat"]
+
+[site]
+bucket = ".open-next"               # папка, куда OpenNext складывает билд
+
+[observability.logs]
+enabled = true

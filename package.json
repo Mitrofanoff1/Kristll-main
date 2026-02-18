@@ -6,7 +6,7 @@
   "dev": "next dev",
   "build": "next build",
   "start": "next start",
-  "cf-build": "opennext build",
+  "cf-build": "npx opennext build",
   "cf-preview": "opennext preview",
   "cf-deploy": "opennext deploy"
 },

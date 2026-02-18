@@ -1,7 +1,6 @@
-// open-next.config.ts
-import type { OpenNextConfig } from "@opennextjs/cloudflare";
+// open-next.config.ts - точный формат, который требует OpenNext
 
-const config: OpenNextConfig = {
+export default {
   default: {
     override: {
       wrapper: "cloudflare-node",
@@ -22,8 +21,5 @@ const config: OpenNextConfig = {
       tagCache: "dummy",
       queue: "dummy"
     }
-  },
-  imageOptimization: false
+  }
 };
-
-export default config;

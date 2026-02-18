@@ -6,7 +6,7 @@
   "dev": "next dev",
   "build": "next build",
   "start": "next start",
-  "cf-build": "npx opennext build",
+  "cf-build": "npx @opennextjs/cloudflare build",
   "cf-preview": "opennext preview",
   "cf-deploy": "opennext deploy"
 },

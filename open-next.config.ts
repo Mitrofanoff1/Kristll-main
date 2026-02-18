@@ -1,16 +1,17 @@
 // open-next.config.ts
-export default {
+import type { OpenNextConfig } from "@opennextjs/cloudflare";
+
+const config: OpenNextConfig = {
   default: {
     override: {
-      wrapper: "cloudflare-node",       // Node.js runtime для SSR и API routes
-      converter: "edge",                // Конвертер для edge-фич
-      proxyExternalRequest: "fetch",    // Прокси внешних запросов
-      incrementalCache: "dummy",        // Кэш (dummy — заглушка для простоты)
+      wrapper: "cloudflare-node",
+      converter: "edge",
+      proxyExternalRequest: "fetch",
+      incrementalCache: "dummy",
       tagCache: "dummy",
-      queue: "dummy"                    // Очередь (dummy если не используешь revalidate)
+      queue: "dummy"
     }
   },
-  // Для middleware (если есть)
   middleware: {
     external: true,
     override: {
@@ -22,6 +23,7 @@ export default {
       queue: "dummy"
     }
   },
-  // Отключаем оптимизацию изображений, если не используешь next/image
   imageOptimization: false
 };
+
+export default config;

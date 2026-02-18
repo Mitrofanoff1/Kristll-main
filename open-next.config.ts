@@ -1,18 +1,25 @@
-// open-next.config.ts
-import type { OpenNextConfig } from "@opennextjs/cloudflare";
-
-const config: OpenNextConfig = {
+// open-next.config.js
+export default {
   default: {
-    // Используем Cloudflare runtime для SSR/API
-    runtime: "cloudflare",
-    // Если есть Server Actions или API routes — включить
     override: {
-      // Пример: для твоего /api/send-telegram
-      // wrapper: "cloudflare", // если нужно кастомный wrapper
+      wrapper: "cloudflare-node",
+      converter: "edge",
+      proxyExternalRequest: "fetch",
+      incrementalCache: "dummy",
+      tagCache: "dummy",
+      queue: "dummy",
     },
   },
-  // Если хочешь отключить image optimization (если не используешь next/image)
+  middleware: {
+    external: true,
+    override: {
+      wrapper: "cloudflare-edge",
+      converter: "edge",
+      proxyExternalRequest: "fetch",
+      incrementalCache: "dummy",
+      tagCache: "dummy",
+      queue: "dummy",
+    },
+  },
   imageOptimization: false,
 };
-
-export default config;

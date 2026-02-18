@@ -1,4 +1,23 @@
-node_modules
-.next
+# dependencies
+node_modules/
+
+# next build
+.next/
+out/
+
+# production
+build/
+
+# logs
+*.log
+
+# environment
+.env*
+.env.local
+
+# macOS
 .DS_Store
-*.local
+
+# IDE
+.vscode/
+.idea/

@@ -2,13 +2,12 @@
   "name": "kristll-studio",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
+ "scripts": {
   "dev": "next dev",
   "build": "next build",
   "start": "next start",
-  "cf-build": "npx @opennextjs/cloudflare build",
-  "cf-preview": "opennext preview",
-  "cf-deploy": "opennext deploy"
+  "lint": "next lint",
+  "cf-build": "npx @opennextjs/cloudflare build"
 },
   "dependencies": {
     "clsx": "^2.1.0",

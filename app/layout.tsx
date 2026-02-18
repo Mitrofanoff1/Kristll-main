@@ -7,9 +7,15 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'), 
-  title: "Kristll Studio | Студия лазерной эпиляции в Мурино",
-  description: "Безболезненная лазерная эпиляция. Скидка -20% на первую процедуру. От 480 рублей. Забудьте о бритве навегда. Гарантируем: без боли.",
+  title: "Безболезненная лазерная эпиляция в Мурино | Kristll Studio",
+  description: "Скидка -20% на первую процедуру. От 480 рублей. Качественная эпиляция по доступным ценам. Гарантируем: без боли.",
   icons: { icon: '/icon.png' },
+  openGraph: {
+    title: "Безболезненная лазерная эпиляция в Мурино",
+    description: "Скидка -20% на первую процедуру. Качественная эпиляция по доступным ценам. Гарантируем: без боли.",
+    type: "website",
+    url: "https://kristll.vercel.app", // Заменишь на свой домен позже
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

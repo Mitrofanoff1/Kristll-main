@@ -1,9 +1,10 @@
-name = "kristl1"                     # имя твоего проекта в Cloudflare Pages (kristl1)
-compatibility_date = "2026-02-18"
+name = "kristll-main"
+compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [site]
-bucket = ".open-next"               # папка, куда OpenNext складывает билд
+bucket = ".open-next/.output"
 
-[observability.logs]
-enabled = true
+[pages_build_config]
+build_command = "npm run cf-build"
+destination_dir = ".open-next/.output"

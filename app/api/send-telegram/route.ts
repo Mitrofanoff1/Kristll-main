@@ -4,8 +4,8 @@ export async function POST(req: Request) {
   try {
     const { name, phone, method, type } = await req.json();
 
-    const TOKEN = "8407225561:AAF2yO12oQnYN78qtZaFuZiRF2UOFeFjCCg"; 
-    const CHAT_ID = "7789174574"; 
+    const TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_TOKEN; 
+    const CHAT_ID = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID; 
     
     const emoji = type === 'consult' ? '❓' : '🆕';
     const title = type === 'consult' ? 'ЗАЯВКА НА КОНСУЛЬТАЦИЮ' : 'ЗАЯВКА НА ЗАПИСЬ (СКИДКА)';

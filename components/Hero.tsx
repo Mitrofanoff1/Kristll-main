@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Zap, Eye, CheckCircle2, Sparkles } from 'lucide-react';
 
 export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
-  const yclientsLink = "https://w1385499.yclients.com/";
+  const yclientsLink = "https://n1385499.yclients.com/company/1257588/personal/select-services?o=";
 
   return (
     <section className="relative overflow-hidden bg-white pt-8 pb-12 lg:pt-20 lg:pb-32">
@@ -19,7 +19,7 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
           <div className="w-full lg:w-3/5 flex flex-col text-center lg:text-left">
             <div className="inline-block self-center lg:self-start mb-4">
               <span className="bg-accent px-4 py-1.5 rounded-full text-[11px] md:text-sm font-bold shadow-sm uppercase tracking-wide">
-                Эпиляция в Мурино всего от 420 руб*
+                Эпиляция в Мурино всего от 480 руб
               </span>
             </div>
             <h1 className="text-[1.8rem] leading-[1.1] sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 uppercase tracking-tighter">
@@ -31,11 +31,12 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
               Гарантируем безболезненную процедуру — или вернем деньги.
             </p>
             
-            {/* КНОПКИ - z-50 для идеального нажатия */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-8 relative z-50">
+            {/* КНОПКИ - z-[101] чтобы быть выше header */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-8 relative z-[101]">
               <button 
-                onClick={(e) => { e.preventDefault(); onOpenModal(); }} 
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOpenModal(); }} 
                 className="w-full sm:w-64 bg-accent hover:bg-[#ffbaba] font-extrabold py-4 rounded-full transition-all shadow-md active:scale-95 uppercase tracking-wider text-base cursor-pointer touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent', pointerEvents: 'auto' }}
               >
                 Получить скидку -20%
               </button>

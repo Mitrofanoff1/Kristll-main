@@ -97,7 +97,7 @@ export default function Price({ onOpenModal }: { onOpenModal: (type: ModalType) 
         </div>
 
         <div className="mt-12 md:mt-16 text-center px-4 max-w-2xl mx-auto">
-            <button onClick={() => onOpenModal('discount')} className="w-full md:w-auto bg-black text-white hover:bg-zinc-800 text-sm md:text-lg font-black py-4 md:py-5 px-10 md:px-16 rounded-full transition-all shadow-xl active:scale-95 uppercase tracking-widest shadow-black/10 mb-12">
+            <button onClick={() => onOpenModal('discount')} className="w-full md:w-auto bg-black text-white hover:bg-zinc-800 text-sm md:text-lg font-black py-4 md:py-5 px-10 md:px-16 rounded-full transition-all shadow-xl active:scale-95 uppercase tracking-widest shadow-black/10 mb-12 touch-manipulation cursor-pointer relative z-[101]" style={{ WebkitTapHighlightColor: 'transparent', pointerEvents: 'auto' }}>
                 Записаться со скидкой 20%
             </button>
             <div className="pt-10 border-t border-gray-100 text-center">

@@ -7,7 +7,7 @@ export default function Footer({ onOpenModal }: { onOpenModal: () => void }) {
   const twoGis = "https://2gis.ru/spb/firm/70000001099309382";
 
   return (
-    <footer className="bg-[#1a1a1a] text-white pt-16 pb-8 border-t border-white/5">
+    <footer id="footer" className="bg-[#1a1a1a] text-white pt-16 pb-8 border-t border-white/5">
       <div className="container mx-auto px-4 text-left">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="flex flex-col gap-6">
@@ -46,7 +46,7 @@ export default function Footer({ onOpenModal }: { onOpenModal: () => void }) {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-center md:text-left"><p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mb-1">*Имеются противопоказания, необходима консультация</p><Link href="/privacy" className="text-[9px] text-gray-500 underline uppercase tracking-widest font-bold">Политика конфиденциальности</Link></div>
+          <div className="text-center md:text-left"><p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mb-1">*ИМЕЮТСЯ ПРОТИВОПОКАЗАНИЯ, НЕОБХОДИМА КОНСУЛЬТАЦИЯ СПЕЦИАЛИСТА</p><Link href="/privacy" className="text-[9px] text-gray-500 underline uppercase tracking-widest font-bold">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ И ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ</Link></div>
           <p className="text-[9px] text-gray-700 uppercase tracking-[0.3em] font-bold">© 2024 KRISTLL STUDIO</p>
         </div>
       </div>

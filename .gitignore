@@ -4,6 +4,7 @@ node_modules/
 # next build
 .next/
 out/
+.open-next/
 
 # production
 build/
@@ -21,3 +22,4 @@ build/
 # IDE
 .vscode/
 .idea/
+*.code-workspace

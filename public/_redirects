@@ -1,0 +1,9 @@
+# Redirect secondary domain to primary
+https://epil-murino.ru/* https://xn----otbabmiiibp6a6a6f5ac.xn--p1ai/:splat 301
+http://epil-murino.ru/* https://xn----otbabmiiibp6a6a6f5ac.xn--p1ai/:splat 301
+
+# Ensure HTTPS on primary
+http://эпиляция-мурино.рф/* https://xn----otbabmiiibp6a6a6f5ac.xn--p1ai/:splat 301
+
+# Remove trailing slashes (optional)
+# /(.+)/ https://эпиляция-мурино.рф/$1 301

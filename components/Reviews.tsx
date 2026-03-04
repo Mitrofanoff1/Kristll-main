@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Star, ExternalLink } from 'lucide-react';
 
 export default function Reviews({ onOpenModal }: { onOpenModal?: (type?: any) => void }) {
@@ -23,10 +23,52 @@ export default function Reviews({ onOpenModal }: { onOpenModal?: (type?: any) =>
     setCurrentIdx((prev) => (prev === 0 ? screenshots.length - 1 : prev - 1));
   }, [screenshots.length]);
 
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
-    return () => clearInterval(timer);
+  // auto-advance with reset on manual interaction
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStart = useRef<number | null>(null);
+  const touchDelta = useRef<number>(0);
+  const isSwiping = useRef<boolean>(false);
+
+  const resetTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(nextSlide, 5000);
   }, [nextSlide]);
+
+  useEffect(() => {
+    resetTimer();
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [resetTimer]);
+
+  const handleNext = (e?: React.MouseEvent) => { e && e.stopPropagation(); nextSlide(); resetTimer(); };
+  const handlePrev = (e?: React.MouseEvent) => { e && e.stopPropagation(); prevSlide(); resetTimer(); };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+    touchDelta.current = 0;
+    isSwiping.current = false;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStart.current == null) return;
+    const x = e.touches[0].clientX;
+    touchDelta.current = x - touchStart.current;
+    if (Math.abs(touchDelta.current) > 10) isSwiping.current = true;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart.current == null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart.current - touchEnd;
+    // if user actually swiped horizontally, perform nav
+    // Swipe right (diff > 0) = prev, Swipe left (diff < 0) = next
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? handlePrev() : handleNext();
+    }
+    touchStart.current = null;
+    touchDelta.current = 0;
+    // small timeout to avoid click handling after swipe
+    setTimeout(() => { isSwiping.current = false; }, 50);
+  };
 
   return (
     <section id="reviews" className="py-12 md:py-24 bg-white overflow-hidden">
@@ -56,7 +98,21 @@ export default function Reviews({ onOpenModal }: { onOpenModal?: (type?: any) =>
 
           <div className="w-full lg:w-2/3 order-2 lg:order-1">
             <div className="relative group">
-              <div className="relative overflow-hidden rounded-[40px] md:rounded-[50px] bg-white border-2 border-gray-100 shadow-2xl aspect-[3/4] md:aspect-auto md:h-[550px] flex items-center justify-center">
+                <div
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                  onClick={(e) => {
+                    // ignore tap if it was part of a swipe
+                    if (isSwiping.current) return;
+                    const target = e.currentTarget as HTMLDivElement;
+                    const rect = target.getBoundingClientRect();
+                    const x = (e as React.MouseEvent).clientX - rect.left;
+                    if (x > rect.width / 2) handleNext(); else handlePrev();
+                  }}
+                  onTouchMove={handleTouchMove}
+                  style={{ touchAction: 'pan-y' }}
+                  className="relative overflow-hidden rounded-[40px] md:rounded-[50px] bg-white border-2 border-gray-100 shadow-2xl aspect-[3/4] md:aspect-auto md:h-[550px] flex items-center justify-center"
+                >
                 <div className="flex transition-transform duration-700 ease-in-out h-full" style={{ transform: `translateX(-${currentIdx * 100}%)` }}>
                   {screenshots.map((s) => (
                     <div key={s.id} className="w-full h-full flex-shrink-0 relative bg-white flex items-center justify-center overflow-hidden">
@@ -69,8 +125,8 @@ export default function Reviews({ onOpenModal }: { onOpenModal?: (type?: any) =>
                     </div>
                   ))}
                 </div>
-                <button onClick={(e) => { e.stopPropagation(); prevSlide(); }} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg z-20 active:scale-90"><ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-black" /></button>
-                <button onClick={(e) => { e.stopPropagation(); nextSlide(); }} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg z-20 active:scale-90"><ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-black" /></button>
+                <button aria-label="prev" onClick={handlePrev} className="absolute left-3 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg z-40 active:scale-90 touch-manipulation"><ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-black" /></button>
+                <button aria-label="next" onClick={handleNext} className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg z-40 active:scale-90 touch-manipulation"><ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-black" /></button>
               </div>
               <div className="flex justify-center gap-2 mt-8">
                 {screenshots.map((_, i) => <button key={i} onClick={() => setCurrentIdx(i)} className={`h-1 rounded-full transition-all ${i === currentIdx ? 'w-10 bg-accent' : 'w-2 bg-gray-200'}`} />)}

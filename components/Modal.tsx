@@ -67,16 +67,24 @@ export default function Modal({ isOpen, onClose, type }: ModalProps) {
         body: JSON.stringify({ ...formData, type }),
         headers: { 'Content-Type': 'application/json' }
       });
-      if (res.ok) setStatus('success');
+      if (res.ok) {
+        setStatus('success');
+      } else {
+        // handle non-OK responses gracefully
+        setStatus('idle');
+        const text = await res.text().catch(() => 'Ошибка сервера');
+        alert('Ошибка при отправке заявки: ' + text);
+      }
     } catch (err) {
       setStatus('idle');
+      alert('Ошибка сети при отправке. Попробуйте ещё раз.');
     }
   };
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 text-black">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose}></div>
-      <div className="relative bg-white w-full max-w-[480px] rounded-[40px] p-8 md:p-12 shadow-2xl animate-in zoom-in duration-300">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 text-black" style={{ pointerEvents: 'auto' }}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300 z-40" onClick={onClose} style={{ pointerEvents: 'auto' }}></div>
+      <div className="relative z-50 bg-white w-full max-w-[480px] rounded-[40px] p-8 md:p-12 shadow-2xl animate-in zoom-in duration-300" style={{ pointerEvents: 'auto' }}>
         <button onClick={onClose} className="absolute top-6 right-6 text-gray-300 hover:text-black transition-colors"><X className="w-6 h-6" /></button>
 
         {status === 'success' ? (
@@ -104,12 +112,18 @@ export default function Modal({ isOpen, onClose, type }: ModalProps) {
                 <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Как с вами связаться?</p>
                 <div className="flex flex-col gap-2">
                   {['Telegram', 'WhatsApp', 'Телефон'].map((m) => (
-                    <label key={m} className="flex items-center gap-3 cursor-pointer"><input type="radio" name="method" value={m} checked={formData.method === m} onChange={() => setFormData({...formData, method: m})} className="w-4 h-4 accent-accent" /><span className="font-bold text-gray-600">{m}</span></label>
+                    <label key={m} className="flex items-center gap-3 cursor-pointer py-2">
+                      <input type="radio" name="method" value={m} checked={formData.method === m} onChange={() => setFormData({...formData, method: m})} className="w-4 h-4 flex-shrink-0 accent-accent" />
+                      <span className="font-bold text-gray-600">{m}</span>
+                    </label>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 px-4"><input type="checkbox" required className="mt-1 accent-accent" defaultChecked /><p className="text-[10px] text-gray-400 leading-tight">Согласие с <Link href="/privacy" onClick={onClose} className="text-accent underline font-bold">политикой конфиденциальности</Link></p></div>
+              <label className="flex items-start gap-3 px-4 cursor-pointer">
+                <input type="checkbox" required className="mt-1 accent-accent" defaultChecked />
+                <p className="text-[10px] text-gray-400 leading-tight">Согласие с <Link href="/privacy" onClick={onClose} className="text-accent underline font-bold">политикой конфиденциальности и обработкой персональных данных</Link></p>
+              </label>
 
               <button disabled={status === 'loading'} className="w-full bg-accent hover:bg-[#ffbaba] text-black font-black py-5 rounded-full shadow-xl active:scale-95 uppercase tracking-widest text-sm transition-all">
                 {status === 'loading' ? 'Отправка...' : (type === 'consult' ? 'Оставить заявку' : 'Получить скидку')}

@@ -14,7 +14,7 @@ export default function Header({ onOpenModal, isMenuOpen, setIsMenuOpen }: Heade
   const navLinks = [
     { name: 'О студии', href: '#studio' },
     { name: 'Прайс', href: '#prices' },
-    { name: 'Эффективность', href: '#laser' },
+    { name: 'Эффективность', href: '#results' },
     { name: 'Отзывы', href: '#reviews' },
     { name: 'Вопросы', href: '#faq' },
     { name: 'Контакты', href: '#footer' },
@@ -48,9 +48,9 @@ export default function Header({ onOpenModal, isMenuOpen, setIsMenuOpen }: Heade
       </header>
 
       {/* ВЫЕЗЖАЮЩЕЕ МЕНЮ */}
-      <div className={`fixed inset-0 z-[1000] transition-all duration-500 ${isMenuOpen ? 'visible' : 'invisible'}`}>
-        <div className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-500 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setIsMenuOpen(false)}></div>
-        <div className={`absolute top-0 right-0 h-full w-full max-w-[300px] bg-[#FFCBCB] shadow-2xl transition-transform duration-500 p-8 flex flex-col justify-between ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed inset-0 z-[1000] transition-all duration-500 ${isMenuOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'}`}>
+        <div className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-500 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setIsMenuOpen(false)}></div>
+        <div className={`absolute top-0 right-0 h-full w-full max-w-[300px] bg-[#FFCBCB] shadow-2xl transition-transform duration-500 p-8 flex flex-col justify-between ${isMenuOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'}`}>
           <div>
             <div className="flex justify-between items-center mb-10">
               <span className="text-xl font-black uppercase">Меню</span>

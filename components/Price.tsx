@@ -6,57 +6,109 @@ import { ModalType } from '@/app/page';
 
 export default function Price({ onOpenModal }: { onOpenModal: (type: ModalType) => void }) {
   const [activeTab, setActiveTab] = useState('Комплексы');
+  const [gender, setGender] = useState<'female' | 'male'>('female');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const categories = ['Комплексы', 'Бикини', 'Тело', 'Лицо', 'Руки', 'Ноги'];
 
-  const priceData: { [key: string]: { name: string, oldPrice: string, newPrice: string, desc?: string }[] } = {
+  // categories displayed depending on gender (male doesn't use Бикини)
+  const displayedCategories = gender === 'male' ? categories.filter(c => c !== 'Бикини') : categories;
+
+  // Discount percent used for displayed newPrice
+  const discount = 30;
+
+  // Female price data (oldPrice in RUB as number). newPrice is computed from discount.
+  const femalePriceData: { [key: string]: { name: string, oldPrice: number, desc?: string }[] } = {
     'Комплексы': [
-      { name: "КОМПЛЕКС XXS", desc: "минимальный комплекс", oldPrice: "2800", newPrice: "2240" },
-      { name: "КОМПЛЕКС XS", desc: "мини-комплекс", oldPrice: "3600", newPrice: "2880" },
-      { name: "КОМПЛЕКС S", desc: "стандартный комплекс", oldPrice: "4300", newPrice: "3440" },
-      { name: "КОМПЛЕКС M", desc: "расширенный комплекс", oldPrice: "5200", newPrice: "4160" },
-      { name: "КОМПЛЕКС L", desc: "большой комплекс", oldPrice: "6300", newPrice: "5040" },
-      { name: "КОМПЛЕКС XL", desc: "максимальный комплекс", oldPrice: "6800", newPrice: "5440" },
-      { name: "КОМПЛЕКС XXL", desc: "экстра-комплекс", oldPrice: "7500", newPrice: "6000" },
+      { name: "КОМПЛЕКС XXS", desc: "подмышечные впадины, тотальное бикини, голени", oldPrice: 2800 },
+      { name: "КОМПЛЕКС XS", desc: "ноги полностью, подмышечные впадины", oldPrice: 3600 },
+      { name: "КОМПЛЕКС S", desc: "подмышечные впадины, тотальное бикини, голени", oldPrice: 4300 },
+      { name: "КОМПЛЕКС M", desc: "ноги полностью, подмышечные впадины, тотальное бикини", oldPrice: 5200 },
+      { name: "КОМПЛЕКС L", desc: "руки до локтя, ноги полностью, подмышечные впадины, тотальное бикини", oldPrice: 6300 },
+      { name: "КОМПЛЕКС XL", desc: "руки полностью, ноги полностью, подмышечные впадины, тотальное бикини", oldPrice: 6800 },
+      { name: "КОМПЛЕКС XXL", desc: "руки полностью, ноги полностью, подмышечные впадины, тотальное бикини + 2 малые зоны на выбор", oldPrice: 7500 },
     ],
     'Бикини': [
-      { name: "Классическое бикини", oldPrice: "1500", newPrice: "1200" },
-      { name: "Глубокое бикини", oldPrice: "2100", newPrice: "1680" },
-      { name: "Тотальное бикини", oldPrice: "2300", newPrice: "1840" },
-      { name: "Межъягодичная зона", oldPrice: "700", newPrice: "560" },
+      { name: "Классическое бикини", oldPrice: 1500 },
+      { name: "Глубокое бикини", oldPrice: 2100 },
+      { name: "Тотальное бикини", oldPrice: 2300 },
+      { name: "Межъягодичная зона", oldPrice: 700 },
     ],
     'Тело': [
-      { name: "Шея", oldPrice: "800", newPrice: "640" },
-      { name: "Подмышечные впадины", oldPrice: "1000", newPrice: "800" },
-      { name: "Ареолы", oldPrice: "700", newPrice: "560" },
-      { name: "Декольте", oldPrice: "1100", newPrice: "880" },
-      { name: "Грудь полностью", oldPrice: "1400", newPrice: "1120" },
-      { name: "Верх спины", oldPrice: "1400", newPrice: "1120" },
-      { name: "Поясница", oldPrice: "1400", newPrice: "1120" },
-      { name: "Спина полностью", oldPrice: "2700", newPrice: "2160" },
-      { name: "Линия живота", oldPrice: "700", newPrice: "560" },
-      { name: "Живот полностью", oldPrice: "1600", newPrice: "1280" },
-      { name: "Ягодицы", oldPrice: "1400", newPrice: "1120" },
+      { name: "Шея", oldPrice: 800 },
+      { name: "Подмышечные впадины", oldPrice: 1000 },
+      { name: "Ареолы", oldPrice: 700 },
+      { name: "Декольте", oldPrice: 1100 },
+      { name: "Грудь полностью", oldPrice: 1400 },
+      { name: "Верх спины", oldPrice: 1400 },
+      { name: "Поясница", oldPrice: 1400 },
+      { name: "Спина полностью", oldPrice: 2700 },
+      { name: "Линия живота", oldPrice: 700 },
+      { name: "Живот полностью", oldPrice: 1600 },
+      { name: "Ягодицы", oldPrice: 1400 },
     ],
     'Лицо': [
-      { name: "Верхняя губа", oldPrice: "600", newPrice: "480" },
-      { name: "Подбородок", oldPrice: "600", newPrice: "480" },
-      { name: "Бакенбарды", oldPrice: "600", newPrice: "480" },
-      { name: "Лицо полностью", oldPrice: "1300", newPrice: "1040" },
+      { name: "Верхняя губа", oldPrice: 600 },
+      { name: "Подбородок", oldPrice: 600 },
+      { name: "Бакенбарды", oldPrice: 600 },
+      { name: "Лицо полностью", oldPrice: 1300 },
     ],
     'Руки': [
-      { name: "Кисти рук", oldPrice: "700", newPrice: "560" },
-      { name: "Пальцы рук", oldPrice: "700", newPrice: "560" },
-      { name: "Руки выше локтя", oldPrice: "1500", newPrice: "1200" },
-      { name: "Руки до локтя", oldPrice: "1500", newPrice: "1200" },
-      { name: "Руки полностью", oldPrice: "2100", newPrice: "1680" },
+      { name: "Кисти рук", oldPrice: 700 },
+      { name: "Пальцы рук", oldPrice: 700 },
+      { name: "Руки выше локтя", oldPrice: 1500 },
+      { name: "Руки до локтя", oldPrice: 1500 },
+      { name: "Руки полностью", oldPrice: 2100 },
     ],
     'Ноги': [
-      { name: "Пальцы на ногах", oldPrice: "600", newPrice: "480" },
-      { name: "Бедра", oldPrice: "1500", newPrice: "1200" },
-      { name: "Голени", oldPrice: "1800", newPrice: "1440" },
-      { name: "Ноги полностью", oldPrice: "2400", newPrice: "1920" },
+      { name: "Пальцы на ногах", oldPrice: 600 },
+      { name: "Бедра", oldPrice: 1500 },
+      { name: "Голени", oldPrice: 1800 },
+      { name: "Ноги полностью", oldPrice: 2400 },
+    ]
+  };
+
+  // Male price data (from provided images)
+  const malePriceData: { [key: string]: { name: string, oldPrice: number, desc?: string }[] } = {
+    'Комплексы': [
+      { name: "КОМПЛЕКС БАЗА", desc: "подмышечные впадины, грудь", oldPrice: 2700 },
+      { name: "КОМПЛЕКС СТАНДАРТ", desc: "подмышечные впадины, грудь, живот", oldPrice: 4700 },
+      { name: "КОМПЛЕКС МАКС", desc: "подмышечные впадины, грудь, спина", oldPrice: 5100 },
+      { name: "КОМПЛЕКС ПОЛНЫЙ ТОРС", desc: "подмышечные впадины, грудь, спина, живот", oldPrice: 7100 },
+    ],
+    'Тело': [
+      { name: "Шея", oldPrice: 1500 },
+      { name: "Подмышечные впадины", oldPrice: 1300 },
+      { name: "Грудь полностью", oldPrice: 1800 },
+      { name: "Спина полностью", oldPrice: 2800 },
+      { name: "Верх спины", oldPrice: 1700 },
+      { name: "Ареолы", oldPrice: 1000 },
+      { name: "Поясница", oldPrice: 1900 },
+      { name: "Плечевой пояс", oldPrice: 2000 },
+      { name: "Живот полностью", oldPrice: 2400 },
+      { name: "Низ живота (линия)", oldPrice: 1000 },
+    ],
+    'Лицо': [
+      { name: "Верхняя губа", oldPrice: 900 },
+      { name: "Подбородок", oldPrice: 900 },
+      { name: "Щеки", oldPrice: 900 },
+      { name: "Бакенбарды", oldPrice: 900 },
+      { name: "Лицо полностью", oldPrice: 2200 },
+    ],
+    'Руки': [
+      { name: "Кисти + пальцы рук", oldPrice: 1500 },
+      { name: "Руки до локтя", oldPrice: 1800 },
+      { name: "Руки выше локтя", oldPrice: 1800 },
+      { name: "Руки полностью", oldPrice: 2700 },
+    ],
+    'Ноги': [
+      { name: "Голени", oldPrice: 2500 },
+      { name: "Бедра полностью", oldPrice: 2500 },
+      { name: "Подъем и пальцы ног", oldPrice: 1700 },
+      { name: "Ноги полностью", oldPrice: 3500 },
+    ],
+    'Бикини': [
+      // empty for male (keep consistent categories)
     ]
   };
 
@@ -80,14 +132,18 @@ export default function Price({ onOpenModal }: { onOpenModal: (type: ModalType) 
           </p>
         </div>
 
-        <div className="relative mb-10 md:mb-16">
+          <div className="relative mb-10 md:mb-16">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+            <button onClick={() => setGender('female')} className={`w-full sm:w-auto px-4 py-2 rounded-full font-black uppercase ${gender === 'female' ? 'bg-accent text-white' : 'bg-white border'}`}>Женская эпиляция</button>
+            <button onClick={() => setGender('male')} className={`w-full sm:w-auto px-4 py-2 rounded-full font-black uppercase ${gender === 'male' ? 'bg-accent text-white' : 'bg-white border'}`}>Мужская эпиляция</button>
+          </div>
+
           <div ref={scrollRef} className="flex overflow-x-auto no-scrollbar border-b border-gray-100 gap-6 md:gap-12 md:justify-center px-2">
-            {categories.map((cat) => (
+            {displayedCategories.map((cat) => (
               <button 
                 key={cat} 
                 onClick={(e) => handleTabClick(cat, e)} 
-                className={`pb-4 text-[15px] md:text-lg font-black transition-all whitespace-nowrap relative uppercase ${activeTab === cat ? 'text-accent' : 'text-gray-400'}`}
-              >
+                className={`pb-4 text-[15px] md:text-lg font-black transition-all whitespace-nowrap relative uppercase ${activeTab === cat ? 'text-accent' : 'text-gray-400'}`}>
                 {cat}
                 {activeTab === cat && <div className="absolute bottom-0 left-0 w-full h-1 bg-accent rounded-full animate-in fade-in zoom-in"></div>}
               </button>
@@ -97,7 +153,7 @@ export default function Price({ onOpenModal }: { onOpenModal: (type: ModalType) 
 
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 gap-4 md:gap-8">
-            {priceData[activeTab]?.map((item, idx) => (
+            {(gender === 'female' ? femalePriceData : malePriceData)[activeTab]?.map((item, idx) => (
               <div key={idx} className="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-5 border-b border-gray-50">
                 <div className="flex-1 text-left">
                   <h3 className="text-[15px] md:text-xl font-black uppercase leading-tight">{item.name}</h3>
@@ -105,7 +161,7 @@ export default function Price({ onOpenModal }: { onOpenModal: (type: ModalType) 
                 </div>
                 <div className="flex items-center gap-3 md:gap-6">
                   <span className="text-gray-300 line-through text-xs md:text-lg font-bold">{item.oldPrice}р</span>
-                  <span className="text-accent text-lg md:text-2xl font-black">{item.newPrice}р</span>
+                  <span className="text-accent text-lg md:text-2xl font-black">{Math.round(item.oldPrice * (100 - discount) / 100)}р</span>
                 </div>
               </div>
             ))}

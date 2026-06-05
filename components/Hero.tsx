@@ -38,7 +38,7 @@ export default function Hero({ onOpenModal }: { onOpenModal: () => void }) {
                 className="w-full sm:w-64 bg-accent hover:bg-[#ffbaba] font-extrabold py-4 rounded-full transition-all shadow-md active:scale-95 uppercase tracking-wider text-base cursor-pointer touch-manipulation"
                 style={{ WebkitTapHighlightColor: 'transparent', pointerEvents: 'auto' }}
               >
-                Получить скидку -20%
+                Получить скидку 30%
               </button>
               <a 
                 href={yclientsLink}

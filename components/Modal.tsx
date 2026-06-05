@@ -96,7 +96,7 @@ export default function Modal({ isOpen, onClose, type }: ModalProps) {
         ) : (
           <>
             <h2 className="text-xl md:text-2xl font-black text-center uppercase leading-tight mb-3 tracking-tighter">
-              {type === 'consult' ? 'ВАМ НУЖНА КОНСУЛЬТАЦИЯ?' : 'Дарим скидку -20% на первую процедуру!'}
+              {type === 'consult' ? 'ВАМ НУЖНА КОНСУЛЬТАЦИЯ?' : 'Дарим скидку 30% на первую процедуру!'}
             </h2>
             <p className="text-center text-[12px] text-gray-400 mb-8 font-bold uppercase tracking-tight leading-tight px-4">
               {type === 'consult' 

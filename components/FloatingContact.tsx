@@ -12,8 +12,8 @@ const FloatingContact = () => {
       icon: <Globe size={24} />,
       label: 'ОНЛАЙН ЗАПИСЬ',
       color: 'bg-black',
-      href: '#',
-      className: 'ms_booking' 
+      href: 'https://n1385499.yclients.com',
+      className: 'ms_booking'
     },
     {
       id: 'phone',

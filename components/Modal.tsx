@@ -11,13 +11,17 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onClose, type }: ModalProps) {
-  const [formData, setFormData] = useState({ name: '', phone: '+7', method: 'WhatsApp' });
+  const [formData, setFormData] = useState({ name: '', phone: '+7', method: 'MAX' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [privacyChecked, setPrivacyChecked] = useState(false);
+  const [privacyError, setPrivacyError] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
       setStatus('idle');
-      setFormData({ name: '', phone: '+7', method: 'WhatsApp' });
+      setFormData({ name: '', phone: '+7', method: 'MAX' });
+      setPrivacyChecked(false);
+      setPrivacyError(false);
     }
   }, [isOpen]);
 
@@ -56,6 +60,10 @@ export default function Modal({ isOpen, onClose, type }: ModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!privacyChecked) {
+      setPrivacyError(true);
+      return;
+    }
     if (formData.phone.length < 18) {
       alert("Пожалуйста, введите полный номер телефона");
       return;
@@ -111,7 +119,7 @@ export default function Modal({ isOpen, onClose, type }: ModalProps) {
               <div className="space-y-3 px-4">
                 <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Как с вами связаться?</p>
                 <div className="flex flex-col gap-2">
-                  {['Telegram', 'WhatsApp', 'Телефон'].map((m) => (
+                  {['Telegram', 'MAX', 'Телефон'].map((m) => (
                     <label key={m} className="flex items-center gap-3 cursor-pointer py-2">
                       <input type="radio" name="method" value={m} checked={formData.method === m} onChange={() => setFormData({...formData, method: m})} className="w-4 h-4 flex-shrink-0 accent-accent" />
                       <span className="font-bold text-gray-600">{m}</span>
@@ -120,10 +128,15 @@ export default function Modal({ isOpen, onClose, type }: ModalProps) {
                 </div>
               </div>
 
-              <label className="flex items-start gap-3 px-4 cursor-pointer">
-                <input type="checkbox" required className="mt-1 accent-accent" defaultChecked />
-                <p className="text-[10px] text-gray-400 leading-tight">Согласие с <Link href="/privacy" onClick={onClose} className="text-accent underline font-bold">политикой конфиденциальности и обработкой персональных данных</Link></p>
-              </label>
+              <div className="flex flex-col gap-1 px-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={privacyChecked} onChange={(e) => { setPrivacyChecked(e.target.checked); setPrivacyError(false); }} className="mt-1 accent-accent" />
+                  <p className="text-[10px] text-gray-400 leading-tight">Согласие с <Link href="/privacy" onClick={onClose} className="text-accent underline font-bold">политикой конфиденциальности и обработкой персональных данных</Link></p>
+                </label>
+                {privacyError && (
+                  <p className="text-[10px] text-red-500 font-bold pl-7">Чтобы продолжить, дайте своё согласие на обработку персональных данных</p>
+                )}
+              </div>
 
               <button disabled={status === 'loading'} className="w-full bg-accent hover:bg-[#ffbaba] text-black font-black py-5 rounded-full shadow-xl active:scale-95 uppercase tracking-widest text-sm transition-all">
                 {status === 'loading' ? 'Отправка...' : (type === 'consult' ? 'Оставить заявку' : 'Получить скидку')}

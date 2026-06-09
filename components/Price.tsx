@@ -140,9 +140,9 @@ export default function Price({ onOpenModal }: { onOpenModal: (type: ModalType) 
 
           <div ref={scrollRef} className="flex overflow-x-auto no-scrollbar border-b border-gray-100 gap-6 md:gap-12 md:justify-center px-2">
             {displayedCategories.map((cat) => (
-              <button 
-                key={cat} 
-                onClick={(e) => handleTabClick(cat, e)} 
+              <button
+                key={cat}
+                onClick={(e) => handleTabClick(cat, e)}
                 className={`pb-4 text-[15px] md:text-lg font-black transition-all whitespace-nowrap relative uppercase ${activeTab === cat ? 'text-accent' : 'text-gray-400'}`}>
                 {cat}
                 {activeTab === cat && <div className="absolute bottom-0 left-0 w-full h-1 bg-accent rounded-full animate-in fade-in zoom-in"></div>}

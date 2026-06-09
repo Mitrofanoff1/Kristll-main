@@ -46,7 +46,13 @@ export default function Footer({ onOpenModal }: { onOpenModal: () => void }) {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-center md:text-left"><p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mb-1">*ИМЕЮТСЯ ПРОТИВОПОКАЗАНИЯ, НЕОБХОДИМА КОНСУЛЬТАЦИЯ СПЕЦИАЛИСТА</p><Link href="/privacy" className="text-[9px] text-gray-500 underline uppercase tracking-widest font-bold">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ И ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ</Link></div>
+          <div className="text-center md:text-left">
+            <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mb-1">*ИМЕЮТСЯ ПРОТИВОПОКАЗАНИЯ, НЕОБХОДИМА КОНСУЛЬТАЦИЯ СПЕЦИАЛИСТА</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-center md:justify-start gap-2">
+              <Link href="/offer" className="text-[9px] text-gray-500 underline uppercase tracking-widest font-bold">ПУБЛИЧНАЯ ОФЕРТА</Link>
+              <Link href="/privacy" className="text-[9px] text-gray-500 underline uppercase tracking-widest font-bold">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ И ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ</Link>
+            </div>
+          </div>
           <p className="text-[9px] text-gray-700 uppercase tracking-[0.3em] font-bold">© 2024 KRISTLL STUDIO</p>
         </div>
       </div>
